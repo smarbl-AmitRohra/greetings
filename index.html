@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>Happy Diwali & A Special Surprise!</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at center, #2e081d 0%, #17030e 100%);
+  color: #fff8eb;
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0;
+  padding: 16px 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.font-cinzel {
+  font-family: 'Cinzel', serif;
+}
+
+main {
+  width: 100%;
+  max-width: 460px;
+  margin: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.festive-card {
+  background: rgba(35, 8, 22, 0.92);
+  border: 2px solid #d4af37;
+  border-radius: 24px;
+  padding: clamp(14px, 4vw, 28px);
+  box-shadow: 0 15px 35px rgba(0,0,0,.6),
+              0 0 25px rgba(212,175,55,.25);
+  overflow: hidden;
+}
+
+.bg-sparkle {
+  position: fixed;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: rgba(255,215,0,.15);
+  filter: blur(45px);
+  pointer-events: none;
+}
+
+.flame {
+  transform-origin: center bottom;
+  animation: flicker 1.8s infinite alternate;
+}
+
+@keyframes flicker {
+  50% {
+    transform: scale(1.08) rotate(2deg);
+    filter: drop-shadow(0 0 8px orange);
+  }
+}
+
+.gold-divider {
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #d4af37,
+    #fcf6ba,
+    #d4af37,
+    transparent
+  );
+}
+
+.shimmer-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+#scratchArea {
+  position: relative;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  touch-action: none;
+}
+
+#hiddenContent {
+  width: 100%;
+  min-height: 310px;
+  padding: 16px;
+  background: linear-gradient(
+    to bottom,
+    #3b105f,
+    #4c0830
+  );
+  border: 1px solid rgba(245,158,11,.3);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+#scratchCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+  touch-action: none;
+  cursor: pointer;
+}
+
+#revealedAnnouncement {
+  width: 100%;
+}
+
+#revealedAnnouncement svg {
+  width: clamp(200px, 65vw, 260px);
+  max-width: 100%;
+  height: auto;
+}
+
+.reveal-animation {
+  animation: popIn .8s ease forwards;
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(.85) translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@media(max-width: 360px) {
+  body {
+    padding: 10px 8px;
+  }
+
+  .festive-card {
+    padding: 12px 10px;
+  }
+
+  #hiddenContent {
+    min-height: 270px;
+    padding: 10px;
+  }
+}
+
+@media(min-width: 600px) {
+  body {
+    padding: 28px;
+  }
+}
+
+@media(max-height: 650px) {
+  body {
+    align-items: flex-start;
+  }
+
+  main {
+    margin-top: 8px;
+  }
+}
+
+@media(prefers-reduced-motion: reduce) {
+  .flame,
+  .reveal-animation {
+    animation: none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg-sparkle" style="top:-50px;left:-50px"></div>
+<div class="bg-sparkle" style="bottom:-50px;right:-50px"></div>
+
+<main>
+<div class="festive-card text-center">
+
+<!-- Diwali header -->
+
+<div class="flex justify-center items-center gap-5 mb-3">
+
+<svg width="42" height="42" viewBox="0 0 64 64">
+  <path class="flame"
+    d="M32 6C32 6 24 18 24 26C24 34 40 34 40 26C40 18 32 6 32 6Z"
+    fill="#FF9900"/>
+  <path
+    d="M12 36C12 36 16 54 32 54C48 54 52 36 52 36Z"
+    fill="#FFD700" stroke="#FFF0A0" stroke-width="1.5"/>
+</svg>
+
+<span class="text-2xl">✨</span>
+
+<svg width="42" height="42" viewBox="0 0 64 64">
+  <path class="flame"
+    d="M32 6C32 6 24 18 24 26C24 34 40 34 40 26C40 18 32 6 32 6Z"
+    fill="#FF9900"/>
+  <path
+    d="M12 36C12 36 16 54 32 54C48 54 52 36 52 36Z"
+    fill="#FFD700" stroke="#FFF0A0" stroke-width="1.5"/>
+</svg>
+
+</div>
+
+<h1 class="font-cinzel text-2xl sm:text-3xl font-bold
+text-transparent bg-clip-text bg-gradient-to-r
+from-amber-200 via-yellow-400 to-amber-200">
+Happy Diwali!
+</h1>
+
+<p class="text-amber-100 text-xs sm:text-sm mt-2 mb-3">
+"Wishing our family a Diwali filled with love,
+laughter and happiness."
+</p>
+
+<div class="gold-divider w-3/4 mx-auto my-4"></div>
+
+<p id="scratchPrompt"
+class="text-amber-300 text-sm mb-3">
+💛 Scratch to get a surprise!
+</p>
+
+<!-- Scratch card starts -->
+
+<div id="scratchArea" class="shimmer-container">
+
+<div id="hiddenContent">
+
+<div id="placeholderText"
+class="font-cinzel text-amber-200 text-sm py-12 animate-pulse">
+✨ A SPECIAL SURPRISE ✨
+</div>
+
+<div id="revealedAnnouncement"
+class="hidden flex-col items-center justify-center">
+
+<div class="text-2xl mb-2">👶🏻 💗 🎀</div>
+
+<h2 class="font-cinzel text-lg font-bold text-amber-200">
+Our family is growing!
+</h2>
+
+<!--<p class="text-pink-200 text-xs italic mt-1 mb-2">
+And there's some exciting news...
+</p>
+-->
+<!-- Little girl illustration -->
+
+<div class="my-2 flex justify-center w-full">
+
+<svg
+  viewBox="0 0 200 180"
+  width="260"
+  height="234"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  style="width:min(100%,260px);height:auto;">
+
+  <!-- Hair at the back -->
+  <circle cx="65" cy="50" r="16" fill="#5A3219"/>
+  <circle cx="135" cy="50" r="16" fill="#5A3219"/>
+
+  <path d="M60 48 Q50 65 58 75 Q68 68 65 48Z"
+        fill="#42220F"/>
+
+  <path d="M140 48 Q150 65 142 75 Q132 68 135 48Z"
+        fill="#42220F"/>
+
+  <!-- Pink ribbons -->
+  <circle cx="67" cy="48" r="4" fill="#FF69B4"/>
+  <circle cx="133" cy="48" r="4" fill="#FF69B4"/>
+
+  <!-- Head and ears -->
+  <circle cx="100" cy="52" r="28" fill="#FCD5CE"/>
+  <circle cx="71" cy="52" r="4.5" fill="#FCD5CE"/>
+  <circle cx="129" cy="52" r="4.5" fill="#FCD5CE"/>
+
+  <!-- Front hair -->
+  <path
+    d="M72 45 C80 28 120 28 128 45
+       C115 40 105 45 100 42
+       C95 45 85 40 72 45Z"
+    fill="#5A3219"/>
+
+  <!-- Eyes -->
+  <circle cx="90" cy="52" r="2.5" fill="#2C1810"/>
+  <circle cx="110" cy="52" r="2.5" fill="#2C1810"/>
+
+  <!-- Cheeks -->
+  <ellipse cx="85" cy="57" rx="3.5" ry="2"
+           fill="#FFB7B2" opacity=".8"/>
+
+  <ellipse cx="115" cy="57" rx="3.5" ry="2"
+           fill="#FFB7B2" opacity=".8"/>
+
+  <!-- Smile -->
+  <path d="M95 59 Q100 64 105 59"
+        stroke="#9A4843"
+        stroke-width="2"
+        stroke-linecap="round"/>
+
+  <!-- Pink frock -->
+  <path
+    d="M82 78 L118 78 L126 115 L74 115Z"
+    fill="#FF85A1"/>
+
+  <path d="M82 78 Q100 86 118 78"
+        stroke="#FFF"
+        stroke-width="2"/>
+
+  <!-- Decorative frock details -->
+  <path d="M100 86 L100 113"
+        stroke="#FCE4EC"
+        stroke-width="1"
+        opacity=".6"/>
+
+  <circle cx="91" cy="91" r="1.5" fill="#FFF"/>
+  <circle cx="109" cy="91" r="1.5" fill="#FFF"/>
+
+  <!-- Misha name on frock -->
+  <text
+    x="100"
+    y="103"
+    font-family="Arial, sans-serif"
+    font-size="10"
+    font-weight="bold"
+    fill="#FFFFFF"
+    text-anchor="middle">
+    Misha
+  </text>
+
+  <!-- Arms extending towards card -->
+  <path
+    d="M81 84 C70 89 61 99 53 115"
+    stroke="#FCD5CE"
+    stroke-width="9"
+    stroke-linecap="round"
+    fill="none"/>
+
+  <path
+    d="M119 84 C130 89 139 99 147 115"
+    stroke="#FCD5CE"
+    stroke-width="9"
+    stroke-linecap="round"
+    fill="none"/>
+
+  <!-- Message card -->
+  <rect
+    x="36"
+    y="105"
+    width="128"
+    height="62"
+    rx="8"
+    fill="#FFFDF0"
+    stroke="#FFD700"
+    stroke-width="2.5"/>
+
+  <!-- Inner card -->
+  <rect
+    x="40"
+    y="109"
+    width="120"
+    height="54"
+    rx="6"
+    fill="#FFF5F7"/>
+
+  <!-- Card decorative hearts -->
+  <text x="49" y="119" font-size="7" fill="#FF69B4">♥</text>
+  <text x="151" y="119" font-size="7" fill="#FF69B4">♥</text>
+
+  <!-- Card text -->
+  <text
+    x="100"
+    y="125"
+    font-family="Arial, sans-serif"
+    font-weight="bold"
+    font-size="9"
+    fill="#B30059"
+    text-anchor="middle">
+    I'm promoted to
+  </text>
+
+  <text
+    x="100"
+    y="140"
+    font-family="Georgia, serif"
+    font-weight="bold"
+    font-size="11"
+    fill="#D4AF37"
+    text-anchor="middle">
+    BIG SISTER
+  </text>
+
+  <text
+    x="100"
+    y="153"
+    font-family="Arial, sans-serif"
+    font-weight="bold"
+    font-size="9.5"
+    fill="#B30059"
+    text-anchor="middle">
+    again! ♡
+  </text>
+
+  <!-- Left hand gripping card -->
+  <path
+    d="M45 115
+       C40 111 34 112 31 117
+       C28 122 32 128 38 129
+       C43 130 48 125 48 121Z"
+    fill="#FCD5CE"
+    stroke="#EAB5AC"
+    stroke-width="1"/>
+
+  <!-- Left fingers -->
+  <path d="M33 117 Q37 114 40 118"
+        stroke="#EAB5AC"
+        stroke-width="1"
+        fill="none"/>
+
+  <path d="M33 122 Q38 119 42 122"
+        stroke="#EAB5AC"
+        stroke-width="1"
+        fill="none"/>
+
+  <!-- Right hand gripping card -->
+  <path
+    d="M155 115
+       C160 111 166 112 169 117
+       C172 122 168 128 162 129
+       C157 130 152 125 152 121Z"
+    fill="#FCD5CE"
+    stroke="#EAB5AC"
+    stroke-width="1"/>
+
+  <!-- Right fingers -->
+  <path d="M167 117 Q163 114 160 118"
+        stroke="#EAB5AC"
+        stroke-width="1"
+        fill="none"/>
+
+  <path d="M167 122 Q162 119 158 122"
+        stroke="#EAB5AC"
+        stroke-width="1"
+        fill="none"/>
+
+</svg>
+
+</div>
+
+<!-- Announcement below illustration -->
+
+<div class="text-base my-1">
+  🌸 🍼 🌸
+</div>
+
+<p class="text-xs text-amber-100 italic leading-relaxed px-1">
+  "A tiny new member is on the way,
+  bringing even more love to our family. ❤️"
+</p>
+
+</div>
+</div>
+
+<!-- Scratch canvas -->
+<canvas id="scratchCanvas"></canvas>
+
+</div>
+
+<!-- Footer -->
+<div class="mt-4 text-xs text-amber-200/60
+            font-light tracking-widest uppercase">
+  ✨ Diwali Greetings ✨
+</div>
+
+</div>
+</main>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  const canvas = document.getElementById('scratchCanvas');
+  const ctx = canvas.getContext('2d', {
+    willReadFrequently: true
+  });
+
+  const container = document.getElementById('scratchArea');
+
+  const placeholderText =
+    document.getElementById('placeholderText');
+
+  const revealedAnnouncement =
+    document.getElementById('revealedAnnouncement');
+
+  const scratchPrompt =
+    document.getElementById('scratchPrompt');
+
+  let isDrawing = false;
+  let isRevealed = false;
+  let width = 0;
+  let height = 0;
+  let lastCheck = 0;
+
+  // Initialize canvas with high DPI support
+  function initCanvas() {
+
+    if (isRevealed) return;
+
+    const rect = container.getBoundingClientRect();
+
+    width = rect.width;
+    height = rect.height;
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    drawGoldenSurface();
+  }
+
+  // Draw metallic golden scratch surface
+  function drawGoldenSurface() {
+
+    const grad = ctx.createLinearGradient(
+      0, 0, width, height
+    );
+
+    grad.addColorStop(0, '#bf953f');
+    grad.addColorStop(0.25, '#fcf6ba');
+    grad.addColorStop(0.5, '#b38728');
+    grad.addColorStop(0.75, '#fbf5b7');
+    grad.addColorStop(1, '#aa771c');
+
+    ctx.globalCompositeOperation = 'source-over';
+
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, width, height);
+
+    // Golden texture
+    ctx.fillStyle = 'rgba(255,255,255,0.08)';
+
+    for (let x = 0; x < width; x += 8) {
+      for (let y = 0; y < height; y += 8) {
+
+        if ((x + y) % 16 === 0) {
+          ctx.fillRect(x, y, 4, 4);
+        }
+
+      }
+    }
+
+    // Scratch instruction
+    ctx.fillStyle = '#3a2100';
+
+    ctx.font = 'bold 14px Cinzel, serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    ctx.shadowColor = 'rgba(255,255,255,0.4)';
+    ctx.shadowBlur = 4;
+
+    ctx.fillText(
+      '✨ SCRATCH TO REVEAL ✨',
+      width / 2,
+      height / 2
+    );
+
+    ctx.shadowBlur = 0;
+  }
+
+  // Calculate pointer position
+  function getPointerPos(e) {
+
+    const rect = canvas.getBoundingClientRect();
+
+    return {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    };
+  }
+
+  // Scratch action
+  function scratch(e) {
+
+    if (!isDrawing || isRevealed) return;
+
+    if (e.cancelable) {
+      e.preventDefault();
+    }
+
+    const pos = getPointerPos(e);
+
+    ctx.globalCompositeOperation = 'destination-out';
+
+    ctx.beginPath();
+
+    ctx.arc(
+      pos.x,
+      pos.y,
+      22,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.fill();
+
+    // Avoid checking pixels on every movement
+    const now = performance.now();
+
+    if (now - lastCheck > 120) {
+      lastCheck = now;
+      checkScratchProgress();
+    }
+  }
+
+  // Check scratched percentage
+  function checkScratchProgress() {
+
+    if (isRevealed) return;
+
+    const pixels = ctx.getImageData(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    ).data;
+
+    const step = 4 * 16;
+
+    let transparentPixels = 0;
+    let totalSampled = 0;
+
+    for (
+      let i = 3;
+      i < pixels.length;
+      i += step
+    ) {
+
+      totalSampled++;
+
+      if (pixels[i] === 0) {
+        transparentPixels++;
+      }
+    }
+
+    const percentage =
+      (transparentPixels / totalSampled) * 100;
+
+    // Reveal after 40% scratched
+    if (percentage >= 40) {
+      triggerAutoReveal();
+    }
+  }
+
+  // Reveal announcement
+  function triggerAutoReveal() {
+
+    if (isRevealed) return;
+
+    isRevealed = true;
+    isDrawing = false;
+
+    // Fade scratch layer
+    canvas.style.transition = 'opacity 700ms ease';
+    canvas.style.opacity = '0';
+
+    setTimeout(() => {
+      canvas.style.display = 'none';
+    }, 700);
+
+    // Update instruction
+    scratchPrompt.style.opacity = '0';
+
+    setTimeout(() => {
+
+      scratchPrompt.innerHTML = '✨ 💖 ✨';
+      scratchPrompt.style.opacity = '1';
+
+    }, 300);
+
+    // Show announcement
+    placeholderText.classList.add('hidden');
+
+    revealedAnnouncement.classList.remove('hidden');
+
+    revealedAnnouncement.classList.add(
+      'flex',
+      'reveal-animation'
+    );
+
+    // Celebrate!
+    launchCelebratoryConfetti();
+  }
+
+  // Confetti animation
+  function launchCelebratoryConfetti() {
+
+    if (typeof confetti !== 'function') return;
+
+    // Main burst
+    confetti({
+      particleCount: 65,
+      spread: 60,
+      origin: {
+        y: 0.65
+      },
+      colors: [
+        '#FFD700',
+        '#FFA500',
+        '#FF69B4',
+        '#FFFFFF'
+      ]
+    });
+
+    // Side bursts
+    setTimeout(() => {
+
+      confetti({
+        particleCount: 35,
+        angle: 60,
+        spread: 55,
+        origin: {
+          x: 0
+        },
+        colors: [
+          '#FFD700',
+          '#F8BBD0',
+          '#FF69B4'
+        ]
+      });
+
+      confetti({
+        particleCount: 35,
+        angle: 120,
+        spread: 55,
+        origin: {
+          x: 1
+        },
+        colors: [
+          '#FFD700',
+          '#F8BBD0',
+          '#FF69B4'
+        ]
+      });
+
+    }, 200);
+  }
+
+  // Pointer events: mobile, tablet and desktop
+  canvas.addEventListener('pointerdown', (e) => {
+
+    if (isRevealed) return;
+
+    isDrawing = true;
+
+    if (canvas.setPointerCapture) {
+      canvas.setPointerCapture(e.pointerId);
+    }
+
+    scratch(e);
+  });
+
+  canvas.addEventListener('pointermove', (e) => {
+
+    if (isDrawing) {
+      scratch(e);
+    }
+  });
+
+  canvas.addEventListener('pointerup', () => {
+    isDrawing = false;
+  });
+
+  canvas.addEventListener('pointercancel', () => {
+    isDrawing = false;
+  });
+
+  canvas.addEventListener('lostpointercapture', () => {
+    isDrawing = false;
+  });
+
+  // Responsive resize
+  let resizeTimer;
+
+  window.addEventListener('resize', () => {
+
+    clearTimeout(resizeTimer);
+
+    resizeTimer = setTimeout(() => {
+      initCanvas();
+    }, 150);
+
+  });
+
+  // Screen orientation changes
+  window.addEventListener('orientationchange', () => {
+
+    setTimeout(() => {
+      initCanvas();
+    }, 300);
+
+  });
+
+  // Initial setup
+  initCanvas();
+
+  // Redraw after fonts load
+  if (document.fonts && document.fonts.ready) {
+
+    document.fonts.ready.then(() => {
+
+      if (!isRevealed) {
+        initCanvas();
+      }
+
+    });
+
+  }
+
+});
+</script>
+
+</body>
+</html>
