@@ -1,1152 +1,1098 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-
-        <title>Happy Diwali & A Special Surprise!</title>
-
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
-        <link
-            href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Poppins:wght@300;400;500;600&display=swap"
-            rel="stylesheet"
-        />
-
-        <style>
-            * {
-                box-sizing: border-box;
-            }
-
-            html {
-                min-height: 100%;
-                overflow-x: hidden;
-            }
-
-            body {
-                font-family: "Poppins", sans-serif;
-                background: radial-gradient(circle at center, #2e081d 0%, #17030e 100%);
-                color: #fff8eb;
-                min-height: 100vh;
-                min-height: 100dvh;
-                margin: 0;
-                padding: 16px 12px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                overflow-x: hidden;
-            }
-
-            .font-cinzel {
-                font-family: "Cinzel", serif;
-            }
-
-            main {
-                width: 100%;
-                max-width: 460px;
-                margin: auto;
-                position: relative;
-                z-index: 2;
-            }
-
-            .festive-card {
-                background: rgba(35, 8, 22, 0.92);
-                border: 2px solid #d4af37;
-                border-radius: 24px;
-                padding: clamp(14px, 4vw, 28px);
-                box-shadow:
-                    0 15px 35px rgba(0, 0, 0, 0.6),
-                    0 0 25px rgba(212, 175, 55, 0.25);
-                overflow: hidden;
-            }
-
-            .bg-sparkle {
-                position: fixed;
-                width: 220px;
-                height: 220px;
-                border-radius: 50%;
-                background: rgba(255, 215, 0, 0.15);
-                filter: blur(45px);
-                pointer-events: none;
-            }
-
-            .flame {
-                transform-origin: center bottom;
-                animation: flicker 1.8s infinite alternate;
-            }
-
-            @keyframes flicker {
-                50% {
-                    transform: scale(1.08) rotate(2deg);
-                    filter: drop-shadow(0 0 8px orange);
-                }
-            }
-
-            .gold-divider {
-                height: 2px;
-                background: linear-gradient(90deg, transparent, #d4af37, #fcf6ba, #d4af37, transparent);
-            }
-
-            .shimmer-container {
-                position: relative;
-                width: 100%;
-                overflow: hidden;
-                border-radius: 16px;
-            }
-
-            #scratchArea {
-                position: relative;
-                width: 100%;
-                border-radius: 16px;
-                overflow: hidden;
-                touch-action: none;
-            }
-
-            #hiddenContent {
-                width: 100%;
-                min-height: 310px;
-                padding: 16px;
-                background: linear-gradient(to bottom, #3b105f, #4c0830);
-                border: 1px solid rgba(245, 158, 11, 0.3);
-                border-radius: 16px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
-            }
-
-            #scratchCanvas {
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 20;
-                touch-action: none;
-                cursor: pointer;
-            }
-
-            #revealedAnnouncement {
-                width: 100%;
-            }
-
-            #revealedAnnouncement svg {
-                width: clamp(200px, 65vw, 260px);
-                max-width: 100%;
-                height: auto;
-            }
-
-            .reveal-animation {
-                animation: popIn 0.8s ease forwards;
-            }
-
-            @keyframes popIn {
-                from {
-                    opacity: 0;
-                    transform: scale(0.85) translateY(15px);
-                }
-                to {
-                    opacity: 1;
-                    transform: scale(1) translateY(0);
-                }
-            }
-
-            @media (max-width: 360px) {
-                body {
-                    padding: 10px 8px;
-                }
-
-                .festive-card {
-                    padding: 12px 10px;
-                }
-
-                #hiddenContent {
-                    min-height: 270px;
-                    padding: 10px;
-                }
-            }
-
-            @media (min-width: 600px) {
-                body {
-                    padding: 28px;
-                }
-            }
-
-            @media (max-height: 650px) {
-                body {
-                    align-items: flex-start;
-                }
-
-                main {
-                    margin-top: 8px;
-                }
-            }
-
-            @media (prefers-reduced-motion: reduce) {
-                .flame,
-                .reveal-animation {
-                    animation: none;
-                }
-            }
-        </style>
-    </head>
-
-    <body>
-        <canvas id="fireworksCanvas"></canvas>
-        <div class="bg-sparkle" style="top: -50px; left: -50px"></div>
-        <div class="bg-sparkle" style="bottom: -50px; right: -50px"></div>
-
-        <main>
-            <div class="festive-card text-center">
-                <!-- Diwali header -->
-
-                <div class="flex justify-center items-center gap-5 mb-3">
-                    <svg width="42" height="42" viewBox="0 0 64 64">
-                        <path
-                            class="flame"
-                            d="M32 6C32 6 24 18 24 26C24 34 40 34 40 26C40 18 32 6 32 6Z"
-                            fill="#FF9900"
-                        />
-                        <path
-                            d="M12 36C12 36 16 54 32 54C48 54 52 36 52 36Z"
-                            fill="#FFD700"
-                            stroke="#FFF0A0"
-                            stroke-width="1.5"
-                        />
-                    </svg>
-
-                    <span class="text-2xl">✨</span>
-
-                    <svg width="42" height="42" viewBox="0 0 64 64">
-                        <path
-                            class="flame"
-                            d="M32 6C32 6 24 18 24 26C24 34 40 34 40 26C40 18 32 6 32 6Z"
-                            fill="#FF9900"
-                        />
-                        <path
-                            d="M12 36C12 36 16 54 32 54C48 54 52 36 52 36Z"
-                            fill="#FFD700"
-                            stroke="#FFF0A0"
-                            stroke-width="1.5"
-                        />
-                    </svg>
-                </div>
-
-                <h1
-                    class="font-cinzel text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-200"
-                >
-                    Happy Diwali!
-                </h1>
-
-                <p class="text-amber-100 text-xs sm:text-sm mt-2 mb-3">
-                    "Wishing our family a Diwali filled with love, laughter and happiness."
-                </p>
-
-                <div class="gold-divider w-3/4 mx-auto my-4"></div>
-
-                <p id="scratchPrompt" class="text-amber-300 text-sm mb-3">💛 Scratch to get a surprise!</p>
-
-                <!-- Voice controls -->
-
-                <button
-                    id="voiceButton"
-                    type="button"
-                    class="bg-gradient-to-r from-amber-400 to-yellow-600 text-purple-950 font-semibold text-sm px-5 py-3 rounded-full shadow-lg mb-2"
-                >
-                    🎙️ Enable Voice Surprise
-                </button>
-
-                <p id="voiceStatus" class="text-xs text-amber-200 mb-3">
-                    Say "Happy Diwali!" to reveal the surprise ✨
-                </p>
-
-                <!-- Music controls -->
-
-                <div class="flex justify-center gap-3 mb-3">
-                    <button
-                        id="musicToggle"
-                        type="button"
-                        class="text-xs text-amber-200 border border-amber-400 rounded-full px-4 py-2"
-                    >
-                        🎵 Music On
-                    </button>
-
-                    <audio id="arrivalAudio" loop preload="auto" playsinline>
-                        <source src="./festive.mp3" type="audio/mpeg" />
-                    </audio>
-                </div>
-
-                <p id="musicStatus" class="text-xs text-pink-200 mb-2">
-                    <!-- 💗 A little melody awaits your surprise! -->
-                </p>
-
-                <!-- Scratch card starts -->
-
-                <div id="scratchArea" class="shimmer-container">
-                    <div id="hiddenContent">
-                        <div id="placeholderText" class="font-cinzel text-amber-200 text-sm py-12 animate-pulse">
-                            ✨ A SPECIAL SURPRISE ✨
-                        </div>
-
-                        <div id="revealedAnnouncement" class="hidden flex-col items-center justify-center">
-                            <div class="text-2xl mb-2">👶🏻 💗 🎀</div>
-
-                            <h2 class="font-cinzel text-lg font-bold text-amber-200">Our family is growing!</h2>
-
-                            <!--<p class="text-pink-200 text-xs italic mt-1 mb-2">
-And there's some exciting news...
-</p>
--->
-                            <!-- Little girl illustration -->
-
-                            <div class="my-2 flex justify-center w-full">
-                                <svg
-                                    viewBox="0 0 200 180"
-                                    width="260"
-                                    height="234"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    style="width: min(100%, 260px); height: auto"
-                                >
-                                    <!-- Hair at the back -->
-                                    <circle cx="65" cy="50" r="16" fill="#5A3219" />
-                                    <circle cx="135" cy="50" r="16" fill="#5A3219" />
-
-                                    <path d="M60 48 Q50 65 58 75 Q68 68 65 48Z" fill="#42220F" />
-
-                                    <path d="M140 48 Q150 65 142 75 Q132 68 135 48Z" fill="#42220F" />
-
-                                    <!-- Pink ribbons -->
-                                    <circle cx="67" cy="48" r="4" fill="#FF69B4" />
-                                    <circle cx="133" cy="48" r="4" fill="#FF69B4" />
-
-                                    <!-- Head and ears -->
-                                    <circle cx="100" cy="52" r="28" fill="#FCD5CE" />
-                                    <circle cx="71" cy="52" r="4.5" fill="#FCD5CE" />
-                                    <circle cx="129" cy="52" r="4.5" fill="#FCD5CE" />
-
-                                    <!-- Front hair -->
-                                    <path
-                                        d="M72 45 C80 28 120 28 128 45
-       C115 40 105 45 100 42
-       C95 45 85 40 72 45Z"
-                                        fill="#5A3219"
-                                    />
-
-                                    <!-- Eyes -->
-                                    <circle cx="90" cy="52" r="2.5" fill="#2C1810" />
-                                    <circle cx="110" cy="52" r="2.5" fill="#2C1810" />
-
-                                    <!-- Cheeks -->
-                                    <ellipse cx="85" cy="57" rx="3.5" ry="2" fill="#FFB7B2" opacity=".8" />
-
-                                    <ellipse cx="115" cy="57" rx="3.5" ry="2" fill="#FFB7B2" opacity=".8" />
-
-                                    <!-- Smile -->
-                                    <path
-                                        d="M95 59 Q100 64 105 59"
-                                        stroke="#9A4843"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                    />
-
-                                    <!-- Pink frock -->
-                                    <path d="M82 78 L118 78 L126 115 L74 115Z" fill="#FF85A1" />
-
-                                    <path d="M82 78 Q100 86 118 78" stroke="#FFF" stroke-width="2" />
-
-                                    <!-- Decorative frock details -->
-                                    <path d="M100 86 L100 113" stroke="#FCE4EC" stroke-width="1" opacity=".6" />
-
-                                    <circle cx="91" cy="91" r="1.5" fill="#FFF" />
-                                    <circle cx="109" cy="91" r="1.5" fill="#FFF" />
-
-                                    <!-- Misha name on frock -->
-                                    <text
-                                        x="100"
-                                        y="103"
-                                        font-family="Arial, sans-serif"
-                                        font-size="10"
-                                        font-weight="bold"
-                                        fill="#FFFFFF"
-                                        text-anchor="middle"
-                                    >
-                                        Misha
-                                    </text>
-
-                                    <!-- Arms extending towards card -->
-                                    <path
-                                        d="M81 84 C70 89 61 99 53 115"
-                                        stroke="#FCD5CE"
-                                        stroke-width="9"
-                                        stroke-linecap="round"
-                                        fill="none"
-                                    />
-
-                                    <path
-                                        d="M119 84 C130 89 139 99 147 115"
-                                        stroke="#FCD5CE"
-                                        stroke-width="9"
-                                        stroke-linecap="round"
-                                        fill="none"
-                                    />
-
-                                    <!-- Message card -->
-                                    <rect
-                                        x="36"
-                                        y="105"
-                                        width="128"
-                                        height="62"
-                                        rx="8"
-                                        fill="#FFFDF0"
-                                        stroke="#FFD700"
-                                        stroke-width="2.5"
-                                    />
-
-                                    <!-- Inner card -->
-                                    <rect x="40" y="109" width="120" height="54" rx="6" fill="#FFF5F7" />
-
-                                    <!-- Card decorative hearts -->
-                                    <text x="49" y="119" font-size="7" fill="#FF69B4">♥</text>
-                                    <text x="151" y="119" font-size="7" fill="#FF69B4">♥</text>
-
-                                    <!-- Card text -->
-                                    <text
-                                        x="100"
-                                        y="125"
-                                        font-family="Arial, sans-serif"
-                                        font-weight="bold"
-                                        font-size="9"
-                                        fill="#B30059"
-                                        text-anchor="middle"
-                                    >
-                                        I'm promoted to
-                                    </text>
-
-                                    <text
-                                        x="100"
-                                        y="140"
-                                        font-family="Georgia, serif"
-                                        font-weight="bold"
-                                        font-size="11"
-                                        fill="#D4AF37"
-                                        text-anchor="middle"
-                                    >
-                                        BIG SISTER
-                                    </text>
-
-                                    <text
-                                        x="100"
-                                        y="153"
-                                        font-family="Arial, sans-serif"
-                                        font-weight="bold"
-                                        font-size="9.5"
-                                        fill="#B30059"
-                                        text-anchor="middle"
-                                    >
-                                        again! ♡
-                                    </text>
-
-                                    <!-- Left hand gripping card -->
-                                    <path
-                                        d="M45 115
-       C40 111 34 112 31 117
-       C28 122 32 128 38 129
-       C43 130 48 125 48 121Z"
-                                        fill="#FCD5CE"
-                                        stroke="#EAB5AC"
-                                        stroke-width="1"
-                                    />
-
-                                    <!-- Left fingers -->
-                                    <path d="M33 117 Q37 114 40 118" stroke="#EAB5AC" stroke-width="1" fill="none" />
-
-                                    <path d="M33 122 Q38 119 42 122" stroke="#EAB5AC" stroke-width="1" fill="none" />
-
-                                    <!-- Right hand gripping card -->
-                                    <path
-                                        d="M155 115
-       C160 111 166 112 169 117
-       C172 122 168 128 162 129
-       C157 130 152 125 152 121Z"
-                                        fill="#FCD5CE"
-                                        stroke="#EAB5AC"
-                                        stroke-width="1"
-                                    />
-
-                                    <!-- Right fingers -->
-                                    <path d="M167 117 Q163 114 160 118" stroke="#EAB5AC" stroke-width="1" fill="none" />
-
-                                    <path d="M167 122 Q162 119 158 122" stroke="#EAB5AC" stroke-width="1" fill="none" />
-                                </svg>
-                            </div>
-
-                            <!-- Announcement below illustration -->
-
-                            <div class="text-base my-1">🌸 🍼 🌸</div>
-
-                            <p class="text-xs text-amber-100 italic leading-relaxed px-1">
-                                "A tiny new member is on the way, bringing even more love to our family. ❤️"
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Scratch canvas -->
-                    <canvas id="scratchCanvas"></canvas>
-                </div>
-
-                <!-- Footer -->
-                <div class="mt-4 text-xs text-amber-200/60 font-light tracking-widest uppercase">
-                    ✨ Diwali Greetings ✨
-                </div>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#201831">
+<title>A Little Fairytale – Our Family Is Growing!</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap');
+
+:root {
+    --pink: #f3b9d2;
+    --blue: #a9c9f2;
+    --lavender: #c9b8ef;
+    --gold: #f5d99b;
+    --cream: #fff7eb;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    background:
+        radial-gradient(ellipse at 50% 20%, #50436d 0%, #302342 42%, #151126 100%);
+    color: var(--cream);
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 12px;
+}
+
+button {
+    font: inherit;
+    cursor: pointer;
+}
+
+#sky {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* TWINKLING STARS */
+
+.star {
+    position: absolute;
+    background: #fff4c9;
+    border-radius: 50%;
+    box-shadow: 0 0 9px #fff0b3;
+    animation: twinkle 2s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+    from { opacity: .2; transform: scale(.7); }
+    to { opacity: 1; transform: scale(1.5); }
+}
+
+.moon {
+    position: fixed;
+    top: 6%;
+    right: 9%;
+    width: 75px;
+    height: 75px;
+    background: #fff0c4;
+    border-radius: 50%;
+    box-shadow: 0 0 40px rgba(255,225,155,.6);
+    opacity: .9;
+    pointer-events: none;
+}
+
+.moon::after {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: 22px;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    background: #342747;
+}
+
+/* CONTINUOUS DECORATION SHOWER */
+
+#shower {
+    position: fixed;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.falling {
+    position: absolute;
+    top: -60px;
+    left: 0;
+    animation: falling linear forwards;
+    will-change: transform, opacity;
+    user-select: none;
+}
+
+@keyframes falling {
+    0% {
+        transform: translateY(-60px) rotate(0deg);
+        opacity: 0;
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateY(50vh) rotate(180deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* CUSTOM TWO-TONE BOW */
+
+.falling-bow {
+    width: 27px;
+    height: 23px;
+    position: relative;
+    display: inline-block;
+}
+
+.bow-loop {
+    position: absolute;
+    top: 1px;
+    width: 12px;
+    height: 13px;
+    border: 2px solid var(--bow-color);
+    background: var(--bow-light);
+    border-radius: 70% 20% 70% 20%;
+}
+
+.bow-loop.left {
+    left: 1px;
+    transform: rotate(25deg);
+}
+
+.bow-loop.right {
+    right: 1px;
+    transform: rotate(65deg) scaleX(-1);
+}
+
+.bow-knot {
+    position: absolute;
+    top: 8px;
+    left: 11px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--bow-color);
+    z-index: 2;
+}
+
+.bow-tail {
+    position: absolute;
+    top: 13px;
+    width: 7px;
+    height: 10px;
+    background: var(--bow-color);
+    clip-path: polygon(0 0,100% 0,100% 100%,50% 70%,0 100%);
+}
+
+.bow-tail.left {
+    left: 7px;
+    transform: rotate(15deg);
+}
+
+.bow-tail.right {
+    right: 7px;
+    transform: rotate(-15deg);
+}
+
+/* MAIN CARD */
+
+.container {
+    width: 100%;
+    max-width: 460px;
+    position: relative;
+    z-index: 2;
+    margin: auto;
+}
+
+.card {
+    position: relative;
+    text-align: center;
+    padding: 27px 20px 22px;
+    border: 1px solid rgba(235,216,177,.55);
+    border-radius: 28px;
+    background: linear-gradient(
+        155deg,
+        rgba(68,53,91,.95),
+        rgba(32,25,52,.97)
+    );
+    box-shadow:
+        0 20px 70px rgba(0,0,0,.5),
+        0 0 35px rgba(191,179,241,.12);
+    overflow: hidden;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(244,213,139,.25);
+    border-radius: 21px;
+    pointer-events: none;
+}
+
+.header-icon {
+    font-size: 37px;
+    margin-bottom: 9px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    50% { transform: translateY(-8px); }
+}
+
+.title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(23px,6vw,32px);
+    font-weight: 600;
+    letter-spacing: 1px;
+    background: linear-gradient(
+        90deg,
+        #fff0c9,
+        #f4c8e1,
+        #c6dcff,
+        #ffe8a4
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.subtitle {
+    font-size: 12px;
+    color: #eadff6;
+    margin-top: 12px;
+    line-height: 1.9;
+}
+
+.divider {
+    width: 70%;
+    height: 1px;
+    margin: 22px auto;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        #e9c77d,
+        #c9b8ef,
+        #e9c77d,
+        transparent
+    );
+}
+
+.message {
+    color: #e9def5;
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+.music-button {
+    margin-top: 17px;
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(244,213,139,.5);
+    border-radius: 30px;
+    padding: 10px 18px;
+    color: #ffe7b5;
+    font-size: 11px;
+}
+
+/* ENVELOPE */
+
+.envelope-area {
+    margin: 30px auto 15px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    perspective: 1000px;
+}
+
+.envelope {
+    position: relative;
+    width: min(290px,85vw);
+    height: 190px;
+    cursor: pointer;
+    filter: drop-shadow(0 12px 20px rgba(0,0,0,.35));
+    transition: transform .3s;
+    outline: none;
+}
+
+.envelope:hover {
+    transform: translateY(-5px);
+}
+
+.envelope-body {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg,#eac9ef,#a9bfe9);
+    border-radius: 9px;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.envelope-left {
+    position: absolute;
+    inset: 0;
+    background: #e2c8ed;
+    clip-path: polygon(0 0,50% 55%,0 100%);
+    z-index: 3;
+}
+
+.envelope-right {
+    position: absolute;
+    inset: 0;
+    background: #e2c8ed;
+    clip-path: polygon(100% 0,50% 55%,100% 100%);
+    z-index: 3;
+}
+
+.envelope-bottom {
+    position: absolute;
+    inset: 0;
+    background: #e2c8ed;
+    clip-path: polygon(0 100%,50% 45%,100% 100%);
+    z-index: 4;
+}
+
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 105px;
+    background: linear-gradient(135deg,#f5d9e9,#b6c9ee);
+    clip-path: polygon(0 0,100% 0,50% 100%);
+    transform-origin: top;
+    transition: transform .9s ease;
+    z-index: 6;
+}
+
+.seal {
+    position: absolute;
+    width: 46px;
+    height: 46px;
+    background: linear-gradient(135deg,#fff0bf,#d9a84c);
+    border: 2px solid #fff1c9;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9e5c9e;
+    font-size: 23px;
+    top: 77px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 8;
+    box-shadow: 0 3px 15px rgba(0,0,0,.2);
+    transition: opacity .4s;
+}
+
+.envelope-label {
+    position: absolute;
+    width: 100%;
+    top: 140px;
+    z-index: 9;
+    color: #57436d;
+    font-family: 'Cinzel',serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.envelope.open .envelope-flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.envelope.open .seal {
+    opacity: 0;
+}
+
+.tap-hint {
+    color: #f4d58b;
+    font-size: 11px;
+    animation: pulse 1.7s infinite;
+}
+
+@keyframes pulse {
+    50% { opacity: .45; }
+}
+
+/* LETTER */
+
+/* LETTER */
+
+.letter {
+    display: none;
+    width: 100%;
+    margin-top: 20px;
+    padding: 25px 18px;
+
+    background: linear-gradient(
+        160deg,
+        #fff9f2,
+        #f8eaf5,
+        #eaf1ff
+    );
+
+    border: 2px solid rgba(235,216,177,.8);
+    border-radius: 20px;
+
+    text-align: center;
+}
+
+.letter.show {
+    display: block;
+    animation: letterReveal 3s ease both;
+}
+
+@keyframes letterReveal {
+    0% {
+        opacity: 0;
+        clip-path: inset(0 0 100% 0);
+    }
+
+    100% {
+        opacity: 1;
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+.letter-small {
+    font-family: 'Cinzel',serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #9074a8;
+}
+
+.script {
+    font-family: 'Great Vibes',cursive;
+    font-size: 32px;
+    color: #8d659f;
+    margin: 9px 0;
+}
+
+.girl-art {
+    width: 220px;
+    max-width: 100%;
+    margin: 10px auto;
+    display: block;
+}
+
+.announcement {
+    font-family: 'Cinzel',serif;
+    font-size: 19px;
+    line-height: 1.6;
+    color: #75639c;
+    font-weight: 700;
+}
+
+.letter-text {
+    font-size: 12px;
+    line-height: 1.9;
+    margin-top: 12px;
+    color: #665473;
+}
+
+.footer {
+    margin-top: 20px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #e8d9f4;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:360px) {
+    .card { padding: 23px 13px 18px; }
+    .envelope { height: 170px; }
+    .envelope-label { top: 125px; }
+    .envelope-flap { height: 95px; }
+    .seal { top: 68px; }
+    .letter { padding: 19px 10px; }
+}
+
+@media(prefers-reduced-motion:reduce) {
+    .star, .header-icon, .tap-hint {
+        animation: none;
+    }
+
+    .falling {
+        animation-duration: 12s !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="sky"></div>
+<div class="moon"></div>
+<div id="shower"></div>
+
+<main class="container">
+<div class="card">
+
+    <div class="header-icon">🌙 ✨ 🦋</div>
+
+    <h1 class="title">A Little Fairytale</h1>
+
+    <p class="subtitle">
+        Every beautiful story has a magical surprise...<br>
+        And today, we have one for our dearest family.
+    </p>
+
+    <div class="divider"></div>
+
+    <p class="message">
+        💌 A special letter has arrived just for you!<br>
+        <!--Someone very tiny has a big announcement...-->
+    </p>
+
+    <button class="music-button" id="musicButton">
+        🎵 Enable Fairytale Music
+    </button>
+
+    <div class="envelope-area" id="envelopeArea">
+
+        <div class="envelope"
+             id="envelope"
+             role="button"
+             tabindex="0"
+             aria-label="Open your special surprise letter">
+
+            <div class="envelope-body"></div>
+            <div class="envelope-left"></div>
+            <div class="envelope-right"></div>
+            <div class="envelope-bottom"></div>
+            <div class="envelope-flap"></div>
+            <div class="seal">♥</div>
+
+            <div class="envelope-label">
+                A LETTER FOR YOU
             </div>
-        </main>
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const canvas = document.getElementById("scratchCanvas");
-                const ctx = canvas.getContext("2d", {
-                    willReadFrequently: true,
-                });
 
-                const container = document.getElementById("scratchArea");
+        </div>
+    </div>
+
+    <p class="tap-hint" id="tapHint">
+        ✨ Tap the golden heart to open your letter ✨
+    </p>
+
+    <!-- SURPRISE LETTER -->
+
+    <div class="letter" id="letter">
+
+        <div class="letter-small">
+            A LITTLE MIRACLE IS ON THE WAY
+        </div>
+
+        <div class="script">
+            Our Dearest Family is Growing...
+        </div>
+
+        <p style="font-size:12px;line-height:1.8">
+            Some stories become even more beautiful
+            when a new little character joins them...
+        </p>
+
+        <!-- Misha illustration -->
+
+        <svg class="girl-art"
+             viewBox="0 0 220 245"
+             xmlns="http://www.w3.org/2000/svg">
+
+            <defs>
+                <linearGradient id="dressGradient" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#b7b7ed"/>
+                    <stop offset="100%" stop-color="#a5d3e8"/>
+                </linearGradient>
+            </defs>
+
+            <!-- Stars -->
+            <g fill="#d4aa64">
+                <path d="M35 25l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/>
+                <path d="M185 38l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/>
+                <path d="M178 125l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/>
+            </g>
+
+            <!-- Hair -->
+            <circle cx="78" cy="55" r="21" fill="#633b28"/>
+            <circle cx="142" cy="55" r="21" fill="#633b28"/>
+            <path d="M67 55 Q48 82 65 108 L80 95Z" fill="#633b28"/>
+            <path d="M153 55 Q172 82 155 108 L140 95Z" fill="#633b28"/>
+
+            <!-- Head -->
+            <circle cx="110" cy="65" r="36" fill="#f7d1bf"/>
+
+            <!-- Hair fringe -->
+            <path d="M74 61 Q78 19 110 27 Q142 19 146 61
+                     Q125 45 110 52 Q94 43 74 61"
+                  fill="#633b28"/>
+
+            <!-- Hair bows -->
+            <g fill="#a9c9f2">
+                <path d="M68 36 Q48 18 53 43 Q58 54 72 43Z"/>
+                <path d="M72 36 Q91 18 87 43 Q82 54 68 43Z"/>
+                <circle cx="70" cy="40" r="4" fill="#8b8ad0"/>
+            </g>
 
-                const placeholderText = document.getElementById("placeholderText");
+            <!-- Eyes -->
+            <circle cx="96" cy="67" r="3" fill="#51342d"/>
+            <circle cx="124" cy="67" r="3" fill="#51342d"/>
 
-                const revealedAnnouncement = document.getElementById("revealedAnnouncement");
+            <!-- Cheeks -->
+            <ellipse cx="88" cy="77" rx="7" ry="4" fill="#efa5a1" opacity=".65"/>
+            <ellipse cx="132" cy="77" rx="7" ry="4" fill="#efa5a1" opacity=".65"/>
 
-                const scratchPrompt = document.getElementById("scratchPrompt");
+            <!-- Smile -->
+            <path d="M102 82 Q110 90 118 82"
+                  fill="none" stroke="#a64e56" stroke-width="2"
+                  stroke-linecap="round"/>
 
-                const voiceButton = document.getElementById("voiceButton");
+            <!-- Neck -->
+            <rect x="101" y="97" width="18" height="14"
+                  rx="6" fill="#f7d1bf"/>
 
-                const voiceStatus = document.getElementById("voiceStatus");
+            <!-- Blue-lavender dress -->
+            <path d="M90 107 L130 107 L151 184
+                     Q110 199 69 184Z"
+                  fill="url(#dressGradient)"/>
 
-                const musicToggle = document.getElementById("musicToggle");
+            <path d="M90 107 Q110 124 130 107"
+                  fill="none" stroke="#fff1e6" stroke-width="4"/>
 
-                const musicStatus = document.getElementById("musicStatus");
+            <path d="M110 121 L110 180"
+                  stroke="#f4efff" stroke-width="2"/>
 
-                let isDrawing = false;
-                let isRevealed = false;
-                let width = 0;
-                let height = 0;
-                let lastCheck = 0;
+            <!-- Arms -->
+            <path d="M88 115 Q68 126 57 155"
+                  stroke="#f7d1bf" stroke-width="10"
+                  fill="none" stroke-linecap="round"/>
 
-                let recognition = null;
-                let isListening = false;
+            <path d="M132 115 Q152 126 163 155"
+                  stroke="#f7d1bf" stroke-width="10"
+                  fill="none" stroke-linecap="round"/>
 
-                // Make reveal state available to music functions
-                window.isSurpriseRevealed = false;
+            <!-- Misha -->
+            <text x="110" y="155"
+                  text-anchor="middle"
+                  font-family="Georgia"
+                  font-size="14"
+                  font-weight="bold"
+                  fill="#fff">Misha</text>
 
-                function initCanvas() {
-                    if (isRevealed) return;
+            <!-- Promotion board -->
+            <rect x="35" y="182" width="150" height="53"
+                  rx="9" fill="#fff9f2"
+                  stroke="#b9a0d8" stroke-width="2"/>
 
-                    const rect = container.getBoundingClientRect();
+            <text x="110" y="201"
+                  text-anchor="middle"
+                  font-family="Georgia"
+                  font-size="10"
+                  fill="#9074a8">I'm promoted to</text>
 
-                    width = rect.width;
-                    height = rect.height;
+            <text x="110" y="217"
+                  text-anchor="middle"
+                  font-family="Georgia"
+                  font-weight="bold"
+                  font-size="13"
+                  fill="#7969a9">BIG SISTER</text>
 
-                    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            <text x="110" y="229"
+                  text-anchor="middle"
+                  font-family="Georgia"
+                  font-size="9"
+                  fill="#9074a8">again! ♡</text>
 
-                    canvas.width = Math.round(width * dpr);
-                    canvas.height = Math.round(height * dpr);
+        </svg>
 
-                    canvas.style.width = width + "px";
-                    canvas.style.height = height + "px";
+        
 
-                    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        <p class="letter-text">
+            Misha has a very special new role to prepare for...
 
-                    drawGoldenSurface();
-                }
+            <br><br>
 
-                function drawGoldenSurface() {
-                    const grad = ctx.createLinearGradient(0, 0, width, height);
+            She's getting promoted to
 
-                    grad.addColorStop(0, "#bf953f");
-                    grad.addColorStop(0.25, "#fcf6ba");
-                    grad.addColorStop(0.5, "#b38728");
-                    grad.addColorStop(0.75, "#fbf5b7");
-                    grad.addColorStop(1, "#aa771c");
+            <br>
 
-                    ctx.globalCompositeOperation = "source-over";
+            <strong style="color:#7969a9;font-size:19px">
+                BIG SISTER AGAIN! 🎀
+            </strong>
 
-                    ctx.fillStyle = grad;
-                    ctx.fillRect(0, 0, width, height);
+            <br><br>
 
-                    ctx.fillStyle = "rgba(255,255,255,0.08)";
+            A tiny new member is on the way,
+            bringing even more love, laughter
+            and happiness into our family.
 
-                    for (let x = 0; x < width; x += 8) {
-                        for (let y = 0; y < height; y += 8) {
-                            if ((x + y) % 16 === 0) {
-                                ctx.fillRect(x, y, 4, 4);
-                            }
-                        }
-                    }
+            <br><br>
 
-                    ctx.fillStyle = "#3a2100";
-                    ctx.font = "bold 14px Cinzel, serif";
-                    ctx.textAlign = "center";
-                    ctx.textBaseline = "middle";
+            Whether wrapped in pink or dressed in blue,
+            this little miracle is already loved beyond words.
 
-                    ctx.shadowColor = "rgba(255,255,255,0.4)";
-                    ctx.shadowBlur = 4;
+            <br><br>
 
-                    ctx.fillText("✨ SCRATCH TO REVEAL ✨", width / 2, height / 2);
+            Our hearts are ready for another beautiful chapter! ❤️
+        </p>
 
-                    ctx.shadowBlur = 0;
-                }
+        <div style="font-size:25px;margin-top:15px">
+            👶🏻 💗 🩵 🍼 🌸
+        </div>
 
-                function getPointerPos(e) {
-                    const rect = canvas.getBoundingClientRect();
+        <div class="script" style="font-size:27px">
+            With lots of love...
+        </div>
 
-                    return {
-                        x: e.clientX - rect.left,
-                        y: e.clientY - rect.top,
-                    };
-                }
+        <div style="font-size:10px;color:#9074a8">
+            OUR FAMILY'S LITTLE FAIRYTALE
+        </div>
 
-                function scratch(e) {
-                    if (!isDrawing || isRevealed) return;
+    </div>
 
-                    if (e.cancelable) {
-                        e.preventDefault();
-                    }
+    <div class="divider"></div>
 
-                    const pos = getPointerPos(e);
+    <!--
+    <div class="footer">
+        ✨ A NEW CHAPTER BEGINS ✨
+    </div>
+    -->
+    
+</div>
+</main>
 
-                    ctx.globalCompositeOperation = "destination-out";
+<script>
 
-                    ctx.beginPath();
+/* =====================================
+   TWINKLING BACKGROUND STARS
+===================================== */
 
-                    ctx.arc(pos.x, pos.y, 22, 0, Math.PI * 2);
+const sky = document.getElementById("sky");
 
-                    ctx.fill();
+for(let i=0;i<90;i++){
 
-                    const now = performance.now();
+    const star=document.createElement("div");
 
-                    if (now - lastCheck > 120) {
-                        lastCheck = now;
-                        checkScratchProgress();
-                    }
-                }
+    star.className="star";
 
-                function checkScratchProgress() {
-                    if (isRevealed) return;
+    star.style.left=Math.random()*100+"%";
+    star.style.top=Math.random()*100+"%";
 
-                    const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    const size=2+Math.random()*3;
 
-                    const step = 4 * 16;
+    star.style.width=size+"px";
+    star.style.height=size+"px";
 
-                    let transparentPixels = 0;
-                    let totalSampled = 0;
+    star.style.animationDelay=Math.random()*3+"s";
+    star.style.animationDuration=(1.5+Math.random()*3)+"s";
 
-                    for (let i = 3; i < pixels.length; i += step) {
-                        totalSampled++;
+    sky.appendChild(star);
+}
 
-                        if (pixels[i] === 0) {
-                            transparentPixels++;
-                        }
-                    }
 
-                    const percentage = (transparentPixels / totalSampled) * 100;
+/* =====================================
+   CONTINUOUS BOW & HEART SHOWER
+   Starts immediately and NEVER STOPS
+===================================== */
 
-                    if (percentage >= 40) {
-                        triggerAutoReveal();
-                    }
-                }
+const shower=document.getElementById("shower");
 
-                function triggerAutoReveal() {
-                    if (isRevealed) return;
+const decorations=[
+    "💗","🩵","💙","💕","🤍","💜",
+    "✨","⭐","🌸","🦋","🌟","♡"
+];
 
-                    isRevealed = true;
-                    window.isSurpriseRevealed = true;
-                    isDrawing = false;
+const bowColors=[
+    ["#ed91bd","#f9d4e5"],
+    ["#8eace5","#c8dcff"],
+    ["#b39ae4","#e0d3ff"],
+    ["#e6bb79","#ffe8bd"],
+    ["#91c9cf","#d5f3ef"],
+    ["#d99ac8","#f7d6ec"]
+];
 
-                    // Stop voice recognition
-                    if (recognition && isListening) {
-                        recognition.stop();
-                    }
+function createFallingDecoration(){
 
-                    if (voiceButton) {
-                        voiceButton.disabled = true;
-                        voiceButton.style.opacity = "0.5";
-                    }
+    const particle=document.createElement("div");
 
-                    if (voiceStatus) {
-                        voiceStatus.textContent = "💖 Surprise successfully revealed!";
-                    }
+    particle.className="falling";
 
-                    // Fade scratch layer
-                    canvas.style.transition = "opacity 700ms ease";
-                    canvas.style.opacity = "0";
+    const isBow=Math.random()<0.32;
 
-                    setTimeout(() => {
-                        canvas.style.display = "none";
-                    }, 700);
+    if(isBow){
 
-                    // Update prompt
-                    scratchPrompt.style.opacity = "0";
+        particle.classList.add("falling-bow");
 
-                    setTimeout(() => {
-                        scratchPrompt.innerHTML = "✨ 💖 ✨";
-                        scratchPrompt.style.opacity = "1";
-                    }, 300);
+        const colors=bowColors[
+            Math.floor(Math.random()*bowColors.length)
+        ];
 
-                    // Reveal announcement
-                    placeholderText.classList.add("hidden");
+        particle.style.setProperty("--bow-color",colors[0]);
+        particle.style.setProperty("--bow-light",colors[1]);
 
-                    revealedAnnouncement.classList.remove("hidden");
+        particle.innerHTML=`
+            <span class="bow-loop left"></span>
+            <span class="bow-loop right"></span>
+            <span class="bow-knot"></span>
+            <span class="bow-tail left"></span>
+            <span class="bow-tail right"></span>
+        `;
 
-                    revealedAnnouncement.classList.add("flex", "reveal-animation");
+    }else{
 
-                    // Celebration
-                    launchCelebratoryConfetti();
+        particle.textContent=decorations[
+            Math.floor(Math.random()*decorations.length)
+        ];
 
-                    // Play arrival music
-                    if (musicEnabled) {
-                        playArrivalMusic();
-                    }
-                }
+    }
 
-                function launchCelebratoryConfetti() {
-                    if (typeof confetti !== "function") return;
+    const duration=7+Math.random()*8;
 
-                    confetti({
-                        particleCount: 65,
-                        spread: 60,
-                        origin: {
-                            y: 0.65,
-                        },
-                        colors: ["#FFD700", "#FFA500", "#FF69B4", "#FFFFFF"],
-                    });
+    particle.style.left=Math.random()*100+"%";
+    particle.style.fontSize=(13+Math.random()*17)+"px";
+    particle.style.animationDuration=duration+"s";
 
-                    setTimeout(() => {
-                        confetti({
-                            particleCount: 35,
-                            angle: 60,
-                            spread: 55,
-                            origin: { x: 0 },
-                            colors: ["#FFD700", "#F8BBD0", "#FF69B4"],
-                        });
+    /*particle.style.setProperty(
+        "--drift",
+        (Math.random()*160-80)+"px"
+    );
+*/
+    particle.style.animationDelay=(Math.random()*1.5)+"s";
 
-                        confetti({
-                            particleCount: 35,
-                            angle: 120,
-                            spread: 55,
-                            origin: { x: 1 },
-                            colors: ["#FFD700", "#F8BBD0", "#FF69B4"],
-                        });
-                    }, 200);
-                }
+    shower.appendChild(particle);
 
-                // MUSIC VARIABLES
+    setTimeout(()=>{
+        particle.remove();
+    },(duration+2.5)*1000);
 
-                // ==========================================
-                // INDIAN INSTRUMENTAL ARRIVAL MUSIC
-                // Bansuri flute / Shehnai / Festive music
-                // ==========================================
+}
+/* Shower starts only when envelope opens */
 
-                const arrivalAudio = document.getElementById("arrivalAudio");
+let showerInterval = null;
+let showerStarted = false;
 
-                let musicEnabled = false;
-                let musicPlaying = false;
+/* Intensify shower when envelope opens */
 
-                // Initial button state
-                musicToggle.textContent = "🎵 Enable Music";
+function intensifyShower(){
 
-                //musicStatus.textContent ='💗 Beautiful Indian instrumental music awaits!';
+    if(showerStarted) return;
 
-                // PLAY MUSIC
-                async function playArrivalMusic() {
-                    if (!musicEnabled || !isRevealed || !arrivalAudio) {
-                        return;
-                    }
+    showerStarted = true;
 
-                    try {
-                        arrivalAudio.volume = 0.65;
+    // Start continuous shower
+    showerInterval = setInterval(
+        createFallingDecoration,
+        120
+    );
 
-                        await arrivalAudio.play();
+    // Magical initial burst
+    for(let i=0;i<60;i++){
+        setTimeout(createFallingDecoration, i*45);
+    }
 
-                        musicPlaying = true;
+}
 
-                        musicToggle.textContent = "🔇 Music Off";
 
-                        musicStatus.textContent = "🪈 Indian instrumental music is playing! 💗";
-                    } catch (error) {
-                        musicPlaying = false;
+/* =====================================
+   FAIRYTALE BACKGROUND MUSIC
+===================================== */
 
-                        musicStatus.textContent = "🎵 Tap Music On to start the instrumental music.";
-                    }
-                }
+let audioContext=null;
+let musicEnabled=false;
+let musicTimer=null;
+let noteIndex=0;
 
-                // STOP MUSIC
-                function stopArrivalMusic() {
-                    musicEnabled = false;
-                    musicPlaying = false;
+const musicButton=document.getElementById("musicButton");
 
-                    if (arrivalAudio) {
-                        arrivalAudio.pause();
-                        arrivalAudio.currentTime = 0;
-                    }
+const melody=[
+    523.25,659.25,783.99,659.25,
+    587.33,698.46,880,698.46,
+    523.25,659.25,783.99,1046.50,
+    880,783.99,659.25,587.33
+];
 
-                    musicToggle.textContent = "🎵 Music On";
+function playNote(frequency){
 
-                    musicStatus.textContent = "Music paused 💗";
-                }
+    if(!audioContext || !musicEnabled) return;
 
-                // ENABLE MUSIC
-                async function enableArrivalMusic() {
-                    musicEnabled = true;
+    const now=audioContext.currentTime;
 
-                    musicToggle.textContent = "🔇 Music Off";
+    const oscillator=audioContext.createOscillator();
+    const gain=audioContext.createGain();
 
-                    if (isRevealed) {
-                        await playArrivalMusic();
-                    } else {
-                        musicStatus.textContent = "💗 Music is ready for the big surprise!";
-                    }
-                }
+    oscillator.type="sine";
+    oscillator.frequency.value=frequency;
 
-                // MUSIC BUTTON
-                musicToggle.addEventListener("click", () => {
-                    if (musicEnabled) {
-                        stopArrivalMusic();
-                    } else {
-                        enableArrivalMusic();
-                    }
-                });
+    gain.gain.setValueAtTime(.0001,now);
+    gain.gain.exponentialRampToValueAtTime(.045,now+.08);
+    gain.gain.exponentialRampToValueAtTime(.0001,now+.8);
 
-                // HANDLE AUDIO ERRORS
-                arrivalAudio.addEventListener("error", () => {
-                    musicPlaying = false;
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
 
-                    musicStatus.textContent = "Unable to load music. Please check your MP3 file.";
-                });
+    oscillator.start(now);
+    oscillator.stop(now+.85);
 
-                // UPDATE STATUS WHEN MUSIC ENDS
-                arrivalAudio.addEventListener("ended", () => {
-                    musicPlaying = false;
-                });
+}
 
-                // VOICE ACTIVATION
+function startMusic(){
 
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if(!audioContext){
 
-                if (SpeechRecognition) {
-                    recognition = new SpeechRecognition();
+        audioContext=new(
+            window.AudioContext ||
+            window.webkitAudioContext
+        )();
 
-                    recognition.lang = "en-IN";
-                    recognition.continuous = true;
-                    recognition.interimResults = true;
+    }
 
-                    voiceButton.addEventListener("click", async () => {
-                        if (isRevealed) return;
+    audioContext.resume();
 
-                        // Prepare audio during user interaction
-                        // Prepare instrumental music during user interaction
-                        if (arrivalAudio && musicEnabled) {
-                            try {
-                                arrivalAudio.load();
-                            } catch (error) {
-                                console.log("Audio preparation pending");
-                            }
-                        }
+    musicEnabled=true;
 
-                        /*if (audioContext) {
-        try {
-          await audioContext.resume();
-        } catch (error) {
-          console.log('Audio preparation pending');
-        }
-      }*/
+    musicButton.textContent="🔇 Turn Music Off";
 
-                        if (!isListening) {
-                            try {
-                                recognition.start();
-                                isListening = true;
+    clearInterval(musicTimer);
 
-                                voiceButton.innerHTML = "🎙️ Listening...";
+    musicTimer=setInterval(()=>{
 
-                                voiceStatus.textContent = "Listening... Say Happy Diwali! 💛";
-                            } catch (error) {
-                                voiceStatus.textContent = "Please allow microphone access and try again.";
-                            }
-                        }
-                    });
+        playNote(melody[noteIndex]);
 
-                    recognition.onresult = (event) => {
-                        let transcript = "";
+        noteIndex=(noteIndex+1)%melody.length;
 
-                        for (let i = event.resultIndex; i < event.results.length; i++) {
-                            transcript += event.results[i][0].transcript;
-                        }
+    },420);
 
-                        transcript = transcript.toLowerCase().trim();
+}
 
-                        voiceStatus.textContent = "Heard: " + transcript;
+function stopMusic(){
 
-                        if (transcript.includes("happy diwali")) {
-                            voiceStatus.textContent = "✨ Happy Diwali! Revealing your surprise...";
+    musicEnabled=false;
 
-                            recognition.stop();
+    clearInterval(musicTimer);
 
-                            triggerAutoReveal();
-                        }
-                    };
+    musicButton.textContent="🎵 Enable Fairytale Music";
 
-                    recognition.onend = () => {
-                        isListening = false;
+}
 
-                        if (!isRevealed) {
-                            voiceButton.innerHTML = "🎙️ Enable Voice Surprise";
-                        }
-                    };
+musicButton.addEventListener("click",()=>{
 
-                    recognition.onerror = (event) => {
-                        isListening = false;
+    if(musicEnabled){
+        stopMusic();
+    }else{
+        startMusic();
+    }
 
-                        voiceButton.innerHTML = "🎙️ Enable Voice Surprise";
+});
 
-                        voiceStatus.textContent =
-                            event.error === "not-allowed"
-                                ? "Microphone permission denied. Please enable it."
-                                : "Voice recognition stopped. Tap to try again.";
-                    };
-                } else {
-                    voiceButton.disabled = true;
 
-                    voiceButton.textContent = "Voice recognition unavailable";
+/* =====================================
+   ENVELOPE OPENING
+===================================== */
 
-                    voiceStatus.textContent = "Please use Chrome or another supported browser.";
-                }
+const envelope=document.getElementById("envelope");
 
-                // POINTER EVENTS
+const letter=document.getElementById("letter");
 
-                canvas.addEventListener("pointerdown", (e) => {
-                    if (isRevealed) return;
+const tapHint=document.getElementById("tapHint");
 
-                    isDrawing = true;
+let isOpened=false;
 
-                    if (canvas.setPointerCapture) {
-                        canvas.setPointerCapture(e.pointerId);
-                    }
+function openLetter(){
 
-                    scratch(e);
-                });
+    if(isOpened) return;
 
-                canvas.addEventListener("pointermove", (e) => {
-                    if (isDrawing) {
-                        scratch(e);
-                    }
-                });
+    isOpened = true;
 
-                canvas.addEventListener("pointerup", () => {
-                    isDrawing = false;
-                });
+    envelope.classList.add("open");
 
-                canvas.addEventListener("pointercancel", () => {
-                    isDrawing = false;
-                });
+    tapHint.textContent =
+        "✨ Your magical surprise is unfolding...";
 
-                canvas.addEventListener("lostpointercapture", () => {
-                    isDrawing = false;
-                });
+    if(!musicEnabled){
+        startMusic();
+    }
 
-                // RESPONSIVE RESIZE
+    // Start continuous bows and hearts
+    intensifyShower();
 
-                let resizeTimer;
+    setTimeout(()=>{
 
-                window.addEventListener("resize", () => {
-                    clearTimeout(resizeTimer);
+        document.getElementById("envelopeArea").style.display = "none";
 
-                    resizeTimer = setTimeout(() => {
-                        initCanvas();
-                    }, 150);
-                });
+        tapHint.style.display = "none";
 
-                window.addEventListener("orientationchange", () => {
-                    setTimeout(() => {
-                        initCanvas();
-                    }, 300);
-                });
+        // Reveal letter
+        letter.classList.add("show");
 
-                // INITIALIZE CANVAS
+    }, 850);
 
-                initCanvas();
+}
 
-                if (document.fonts && document.fonts.ready) {
-                    document.fonts.ready.then(() => {
-                        if (!isRevealed) {
-                            initCanvas();
-                        }
-                    });
-                }
+envelope.addEventListener("click",openLetter);
 
-                /* ==========================================
-   PART 6 – CONTINUOUS DIWALI FIREWORKS
-========================================== */
+envelope.addEventListener("keydown",(e)=>{
 
-                // Create fireworks canvas dynamically
+    if(e.key==="Enter" || e.key===" "){
+        e.preventDefault();
+        openLetter();
+    }
 
-                const fireworksCanvas = document.getElementById("fireworksCanvas");
+});
 
-                fireworksCanvas.id = "fireworksCanvas";
 
-                fireworksCanvas.style.position = "fixed";
-                fireworksCanvas.style.inset = "0";
-                fireworksCanvas.style.width = "100%";
-                fireworksCanvas.style.height = "100%";
-                fireworksCanvas.style.pointerEvents = "none";
-                fireworksCanvas.style.zIndex = "1";
+/* =====================================
+   EXTRA REVEAL CELEBRATION
+===================================== */
 
-                document.body.appendChild(fireworksCanvas);
+function launchCelebration(){
 
-                const fwCtx = fireworksCanvas.getContext("2d");
+    const items=[
+        "💗","🩵","💕","✨","🎀",
+        "🌸","⭐","💙","💜","🦋"
+    ];
 
-                let fireworksWidth = 0;
-                let fireworksHeight = 0;
+    // Extra celebration shower
 
-                let particles = [];
-                let rockets = [];
+    for(let i=0;i<65;i++){
 
-                const fireworkColors = ["#FFD700", "#FFA500", "#FF69B4", "#FF4500", "#FFFFFF", "#FF1493", "#00FFFF"];
+        setTimeout(()=>{
 
-                // Resize fireworks canvas
+            createFallingDecoration();
 
-                function resizeFireworks() {
-                    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        },i*35);
 
-                    fireworksWidth = window.innerWidth;
-                    fireworksHeight = window.innerHeight;
+    }
 
-                    fireworksCanvas.width = fireworksWidth * dpr;
+    // Floating heart and sparkle bursts
 
-                    fireworksCanvas.height = fireworksHeight * dpr;
+    for(let i=0;i<45;i++){
 
-                    fwCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-                }
+        setTimeout(()=>{
 
-                window.addEventListener("resize", resizeFireworks);
+            const heart=document.createElement("div");
 
-                resizeFireworks();
+            heart.className="falling";
 
-                // Create a firework rocket
+            heart.textContent=items[
+                Math.floor(Math.random()*items.length)
+            ];
 
-                function createRocket() {
-                    rockets.push({
-                        x: Math.random() * fireworksWidth,
+            heart.style.left=(5+Math.random()*90)+"%";
 
-                        y: fireworksHeight,
+            heart.style.fontSize=(20+Math.random()*20)+"px";
 
-                        targetY: fireworksHeight * (0.12 + Math.random() * 0.4),
+            heart.style.animationDuration="5s";
 
-                        speed: 4 + Math.random() * 3,
+            heart.style.setProperty(
+                "--drift",
+                (Math.random()*220-110)+"px"
+            );
 
-                        color: fireworkColors[Math.floor(Math.random() * fireworkColors.length)],
-                    });
-                }
+            shower.appendChild(heart);
 
-                // Explode into glowing particles
+            setTimeout(()=>heart.remove(),5500);
 
-                function explodeFirework(x, y, color) {
-                    const particleCount = 55;
+        },i*65);
 
-                    for (let i = 0; i < particleCount; i++) {
-                        const angle = (Math.PI * 2 * i) / particleCount;
+    }
 
-                        const speed = 1 + Math.random() * 4;
+}
 
-                        particles.push({
-                            x: x,
-                            y: y,
+</script>
 
-                            vx: Math.cos(angle) * speed,
-                            vy: Math.sin(angle) * speed,
-
-                            alpha: 1,
-
-                            radius: 1.5 + Math.random() * 2,
-
-                            color: color,
-
-                            gravity: 0.035,
-                        });
-                    }
-                }
-
-                // Animate rockets and fireworks
-
-                function animateFireworks() {
-                    fwCtx.clearRect(0, 0, fireworksWidth, fireworksHeight);
-
-                    // Draw rockets
-
-                    rockets.forEach((rocket, index) => {
-                        rocket.y -= rocket.speed;
-
-                        fwCtx.beginPath();
-
-                        fwCtx.arc(rocket.x, rocket.y, 3, 0, Math.PI * 2);
-
-                        fwCtx.fillStyle = rocket.color;
-
-                        fwCtx.shadowBlur = 15;
-                        fwCtx.shadowColor = rocket.color;
-
-                        fwCtx.fill();
-
-                        if (rocket.y <= rocket.targetY) {
-                            explodeFirework(rocket.x, rocket.y, rocket.color);
-
-                            rockets.splice(index, 1);
-                        }
-                    });
-
-                    // Draw glowing explosion particles
-
-                    particles.forEach((particle, index) => {
-                        particle.x += particle.vx;
-                        particle.y += particle.vy;
-
-                        particle.vy += particle.gravity;
-
-                        particle.alpha -= 0.012;
-
-                        fwCtx.globalAlpha = Math.max(particle.alpha, 0);
-
-                        fwCtx.beginPath();
-
-                        fwCtx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-
-                        fwCtx.fillStyle = particle.color;
-
-                        fwCtx.shadowBlur = 12;
-                        fwCtx.shadowColor = particle.color;
-
-                        fwCtx.fill();
-
-                        if (particle.alpha <= 0) {
-                            particles.splice(index, 1);
-                        }
-                    });
-
-                    fwCtx.globalAlpha = 1;
-                    fwCtx.shadowBlur = 0;
-
-                    requestAnimationFrame(animateFireworks);
-                }
-
-                // Launch fireworks continuously
-
-                setInterval(() => {
-                    createRocket();
-                }, 850);
-
-                // Start animation
-
-                animateFireworks();
-
-                enableArrivalMusic();
-            }); // END DOMContentLoaded
-        </script>
-    </body>
+</body>
 </html>
