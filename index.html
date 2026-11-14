@@ -791,11 +791,15 @@ for(let i=0;i<90;i++){
 
 const shower=document.getElementById("shower");
 
-const decorations=[
+/*const decorations=[
     "💗","🩵","💙","💕","🤍","💜",
     "✨","⭐","🌸","🦋","🌟","♡"
 ];
+*/
 
+const decorations=[
+    "✨"
+];
 const bowColors=[
     ["#ed91bd","#f9d4e5"],
     ["#8eace5","#c8dcff"],
@@ -811,11 +815,11 @@ function createFallingDecoration(){
 
     particle.className="falling";
 
-    const isBow=Math.random()<0.32;
+    const isBow = false; //Math.random()<0.32;
 
     if(isBow){
 
-        particle.classList.add("falling-bow");
+       /* particle.classList.add("falling-bow");
 
         const colors=bowColors[
             Math.floor(Math.random()*bowColors.length)
@@ -830,7 +834,7 @@ function createFallingDecoration(){
             <span class="bow-knot"></span>
             <span class="bow-tail left"></span>
             <span class="bow-tail right"></span>
-        `;
+        `;*/
 
     }else{
 
@@ -1040,11 +1044,12 @@ envelope.addEventListener("keydown",(e)=>{
 
 function launchCelebration(){
 
-    const items=[
+    /*const items=[
         "💗","🩵","💕","✨","🎀",
         "🌸","⭐","💙","💜","🦋"
     ];
-
+    */
+    const items = ["✨"];
     // Extra celebration shower
 
     for(let i=0;i<65;i++){
@@ -1077,11 +1082,11 @@ function launchCelebration(){
 
             heart.style.animationDuration="5s";
 
-            heart.style.setProperty(
+            /*heart.style.setProperty(
                 "--drift",
                 (Math.random()*220-110)+"px"
             );
-
+            */
             shower.appendChild(heart);
 
             setTimeout(()=>heart.remove(),5500);
